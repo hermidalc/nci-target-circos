@@ -1,0 +1,120 @@
+# As superuser:
+
+$ yum install gd-devel gd-progs libjpeg-devel libtiff-devel libpng-devel libxml2-devel expat-devel
+
+# The rest do as system user hosting stack in their $HOME (not as another user and then changing ownership, perlbrew and cpanminus create important hidden directories and stuff in $HOME):
+
+$ mkdir -p $HOME/soft/perl5
+
+# Add all following to $HOME/.bash_profile:
+
+-------------------------------------------------------
+
+SOFT_HOME=$HOME/soft
+export SOFT_HOME
+
+PERLBREW_ROOT=$SOFT_HOME/perl5
+export PERLBREW_ROOT
+
+PERLBREW_CONFIGURE_FLAGS="-des \
+-Doptimize='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m64 -mtune=generic' \
+-DDEBUGGING=-g \
+-Aprepend:libswanted='resolv ' \
+-Dmyhostname=localhost \
+-Dperladmin=leandro.hermida@nih.gov \
+-Dcc='gcc -m64' \
+-Dcf_by=Leandro \
+-Dlibpth='/usr/local/lib64 /lib64 /usr/lib64' \
+-Duseshrplib \
+-Dusemorebits \
+-Duselargefiles \
+-Dd_semctl_semun \
+-Di_db \
+-Ui_ndbm \
+-Di_gdbm \
+-Di_shadow \
+-Di_syslog \
+-Dman3ext=3pm \
+-Duseperlio \
+-Dusethreads \
+-Duseithreads \
+-Dinstallusrbinperl=n \
+-Ubincompat5005 \
+-Uversiononly \
+-Dinc_version_list=none \
+-Dpager='/usr/bin/less -isr' \
+-Dd_gethostent_r_proto \
+-Ud_endhostent_r_proto \
+-Ud_sethostent_r_proto \
+-Ud_endprotoent_r_proto \
+-Ud_setprotoent_r_proto \
+-Ud_endservent_r_proto \
+-Ud_setservent_r_proto"
+export PERLBREW_CONFIGURE_FLAGS
+
+. $PERLBREW_ROOT/etc/bashrc
+
+-------------------------------------------------------
+
+# Source .bash_profile or just log out and log back in:
+
+$ . $HOME/.bash_profile
+
+# Get and upgrade perlbrew:
+
+$ curl -kL http://install.perlbrew.pl | bash
+
+# Build and install Perl
+
+$ perlbrew init
+$ perlbrew available
+$ perlbrew install --verbose perl-5.16.3 --as perl-5.16.3-centos6.4
+
+# Using perlbrew install --switch option above doesn't always switch properly so instead after:
+
+$ perlbrew switch perl-5.16.3-centos6.4
+
+# Get and upgrade cpanminus
+# Don't like where perlbrew install-cpanm puts cpanm because get stupid --self-upgrade messages so instead:
+
+$ cd $SOFT_HOME/perl5/perls/perl-5.16.3-centos6.4/bin
+$ curl -kLO http://xrl.us/cpanm
+$ chmod u+x cpanm
+$ cpanm --self-upgrade
+
+# Install CPAN libraries (library order important for tests):
+
+$ cpanm -v Clone JSON::XS JSON YAML Image::Info Image::Size Module::Refresh Template Plack Dancer Dancer::Plugin::Thumbnail Starman
+
+# Finally make sure the TARGET data filesystem is mounted:
+
+$ df -h
+
+ncifs-target-p:/cbiit/target    101T   81T   21T  80% /local/target_data
+
+# Get NCI-TARGET-Circos application:
+
+$ cd $SOFT_HOME
+$ svn export https://..../NCI-TARGET-Circos/trunk NCI-TARGET-Circos
+
+# Start up application server:
+
+$ cd NCI-TARGET-Circos
+$ ./bin/circos_server.pl --help
+Usage:
+     circos_server.pl {start|stop|status} [options]
+
+     Options:
+        --env|-e <development|deployment|test>  Application environmnent (default 'deployment')
+        --workers|-w <n>                        Size of Starman server worker pool (default 5)
+        --host|-h <hostname>                    Host address to bind to (default localhost)
+        --port|-p <port>                        Port to bind to (default 5000)
+        --help                                  Display usage message and exit
+        --version                               Display program version and exit
+
+$ ./bin/circos_server.pl start
+
+# You will see starman master and worker processes in ps
+
+# Add circos_server.pl to init.d maybe using chkconfig (will need to make chkconfig header in script then)
+

@@ -1,0 +1,166 @@
+[% IF image_files.size -%]
+<script>
+function updateQueryString(url, param, value) {
+    var re = new RegExp("([?|&])" + param + "=.*?(&|$)","i");
+    var separator = url.indexOf('?') !== -1 ? "&" : "?";
+    if (url.match(re))
+        return url.replace(re,'$1' + param + "=" + value + '$2');
+    else
+        return url + separator + param + "=" + value;
+}
+</script>
+<table class="center">
+    <tr>
+        [% IF arrange_by -%]
+        <th colspan="[% num_display_cols + 1 %]">[% page_title %]</th>
+        [% ELSE -%]
+        <th colspan="[% num_display_cols %]">[% page_title %]</th>
+        [% END -%]
+    </tr>
+    <tr>
+    [% IF not arrange_by -%]
+        <td colspan="[% num_display_cols - 1 %]" style="vertical-align:bottom; padding-top:20px;">
+    [% ELSE -%]
+        <td colspan="[% num_display_cols %]">
+    [% END -%]
+            Arrange By: 
+            <select onchange="window.location.href=updateQueryString(window.location.href,'arrange_by',this.value);">
+                <option></option>
+        [% IF arrange_by == "case_id_state_cmp" -%]
+                <option selected="true" value="case_id_state_cmp">Case ID x Disease State Comparison</option>
+        [% ELSE -%]
+                <option value="case_id_state_cmp">Case ID x Disease State Comparison</option>
+        [% END -%]
+            </select>
+        [% IF not arrange_by -%]
+            Columns:
+            <select onchange="window.location.href=updateQueryString(window.location.href, 'cols', this.value);">
+            [% FOREACH i IN [ 1 .. 15 ] -%]
+                [% IF i == num_display_cols -%]
+                <option selected="true">[% i %]</option>
+                [% ELSE -%]
+                <option>[% i %]</option>
+                [% END -%]
+            [% END -%]
+            </select>
+        [% END -%]
+            Size: 
+            <select onchange="window.location.href=updateQueryString(window.location.href, 'tsize', this.value);">
+                [% FOREACH w IN [ 100,150,200,250,300,350,400,450,500,550,650,700,750,800,850,900,950,1000 ] -%]
+                    [% IF w == thumb_w -%]
+                <option selected="true">[% w %]</option>
+                    [% ELSE -%]
+                <option>[% w %]</option>
+                    [% END -%]
+                [% END -%]
+            </select>
+        </td>
+        [% IF not arrange_by -%]
+        <td style="text-align:right;" rowspan="2">
+        [% ELSE -%]
+        <td style="text-align:right;">
+        [% END -%]
+            <a onclick="var legendWindow = window.open('/[% disease %]/images/[% legend_image_file %]', 'legendWindow', 
+                'width=[% legend_w + 2 %],height=[% legend_h + 2 %],status=0,location=0,resizable=0,menubar=0,toolbar=0,directories=0,scrollbars=0');
+                legendWindow.focus();">
+                <img src="/[% disease %]/thumb/legend/[% legend_thumb_w %]/[% legend_image_file %]"/>
+                <div class="caption right">Legend</div>
+            </a>
+        </td>
+    </tr>
+    [% IF not arrange_by -%]
+    <tr>
+        <td colspan="[% num_display_cols %]" style="vertical-align:top;">
+        [% FOREACH cmp_type IN unique_cmp_types -%]
+            <div style="font-weight:bold;">[% cmp_type %] ([% num_cmp_type_images.$cmp_type %])</div>
+        [% END -%]
+        </td>
+    </tr>
+    [% END -%]
+    [% file_idx = 0 -%]
+    [% IF arrange_by -%]
+    <tr>
+        [% FOREACH cmp_type IN unique_cmp_types -%]
+        <td style="font-weight: bold;">[% cmp_type %] ([% num_cmp_type_images.$cmp_type %])</td>
+        [% END -%]
+        <td>&nbsp;</td>
+    </tr>
+        [% WHILE file_idx <= image_files.max -%]
+    <tr>
+            [% row_image_files = [] -%]
+            [% FOREACH col_type IN unique_cmp_types -%]
+                [% IF col_type == cmp_types.$file_idx -%]
+        <td>
+            <a href="/[% disease %]/thumb/[% lightbox_thumb_w %]/[% image_files.$file_idx %]" rel="lightbox[circos]"
+               title="[% circos_types.$file_idx _ ' | ' _ target_case_ids.$file_idx _ ' | ' _ cmp_types.$file_idx %]">
+                <img src="/[% disease %]/thumb/[% thumb_w %]/[% image_files.$file_idx %]"/>
+                [% IF thumb_w == 100 -%]
+                <div class="caption tiny">
+                [% ELSIF thumb_w == 150 -%]
+                <div class="caption small">
+                [% ELSE -%]
+                <div class="caption">
+                [% END -%]
+                    [% circos_types.$file_idx _ '<br/>' _ target_case_ids.$file_idx _ '<br/>' _ cmp_types.$file_idx %]
+                </div>
+            </a>
+        </td>
+                    [% row_image_files.push(image_files.$file_idx) -%]
+                    [% file_idx = file_idx + 1 -%]
+                [% ELSE -%]
+        <td>
+            <div class="nodata">NO DATA</div>
+        </td>
+                [% END -%]
+            [% END -%]
+        <td>
+            [% IF row_image_files.size == 2 -%]
+            <a onclick="var overlayWindow = window.open('/[% disease %]/overlay?img0=[% row_image_files.1 %]&img1=[% row_image_files.0 %]', 'overlayWindow', 
+                'width=[% overlay_thumb_w + 250 %],height=[% overlay_thumb_w %],status=0,location=0,resizable=0,menubar=0,toolbar=0,directories=0,scrollbars=0');
+                overlayWindow.focus();"
+               style="font-weight:bold;">
+                &larr; OVERLAY PLOTS
+            </a>
+            [% ELSE -%]
+            &nbsp;
+            [% END -%]
+        </td>
+    </tr>
+        [% END -%]
+    [% ELSE -%]
+        [% USE Table(image_files, rows = num_display_cols) -%]
+        [% FOREACH col IN Table.cols -%]
+    <tr>
+            [% FOREACH image_file IN col -%]
+                [% IF image_file -%]
+        <td>
+            <a href="/[% disease %]/thumb/[% lightbox_thumb_w %]/[% image_file %]" rel="lightbox[circos]" 
+               title="[% circos_types.$file_idx _ ' | ' _ target_case_ids.$file_idx _ ' | ' _ cmp_types.$file_idx %]">
+                <img src="/[% disease %]/thumb/[% thumb_w %]/[% image_file %]"/>
+                [% IF thumb_w == 100 -%]
+                <div class="caption tiny">
+                [% ELSIF thumb_w == 150 -%]
+                <div class="caption small">
+                [% ELSE -%]
+                <div class="caption">
+                [% END -%]
+                    [% circos_types.$file_idx _ '<br/>' _ target_case_ids.$file_idx _ '<br/>' _ cmp_types.$file_idx %]
+                </div>
+            </a>
+        </td>
+                [% file_idx = file_idx + 1 -%]
+                [% ELSE -%]
+        <td>&nbsp;</td>
+                [% END -%]
+            [% END -%]
+        [% END -%]
+    </tr>
+    [% END -%]
+</table>
+[% ELSE -%]
+<div style="font-weight: bold">No Circos plots exist yet for [% disease %]</div>
+[% END -%]
+
+[% #USE Dumper -%]
+[% #Dumper.dump_html(num_cmp_type_images) -%]
+

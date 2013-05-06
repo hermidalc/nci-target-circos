@@ -1,0 +1,79 @@
+NCI-TARGET-Circos/
+├── bin
+│   ├── circos_app.pl
+│   └── circos_server.pl
+├── cache
+├── config.yml
+├── environments
+│   ├── development.yml
+│   └── production.yml
+├── INSTALL
+├── lib
+│   └── NCI
+│       └── TARGET
+│           └── Circos.pm
+├── logs
+│   └── deployment.log
+├── Makefile.PL
+├── MANIFEST
+├── MANIFEST.SKIP
+├── misc
+│   ├── circos_app_dependencies.txt
+│   └── circos_app_tree.txt
+├── public
+│   ├── 404.html
+│   ├── 500.html
+│   ├── ALL
+│   │   └── images -> /local/target_data/download/ALL/CGI/Circos
+│   ├── AML
+│   │   └── images -> /local/target_data/download/AML/CGI/Circos
+│   ├── css
+│   │   ├── error.css
+│   │   ├── lightbox.css
+│   │   └── style.css
+│   ├── dispatch.cgi
+│   ├── dispatch.fcgi
+│   ├── favicon.ico
+│   ├── images
+│   │   ├── close.png
+│   │   ├── loading.gif
+│   │   ├── next.png
+│   │   ├── perldancer-bg.jpg
+│   │   ├── perldancer.jpg
+│   │   └── prev.png
+│   ├── javascripts
+│   │   ├── jquery-1.7.2.min.js
+│   │   ├── jquery.smooth-scroll.min.js
+│   │   ├── jquery-ui-1.8.18.custom.min.js
+│   │   ├── lightbox.js
+│   │   └── lightbox.js.orig
+│   ├── NBL
+│   │   └── images -> /local/target_data/download/NBL/CGI/Circos
+│   ├── OS
+│   │   └── images -> /local/target_data/download/OS/CGI/Circos
+│   ├── TEST
+│   │   └── images
+│   │       ├── somaticCircosLegend.png
+│   │       ├── somaticCircos_TARGET-10-PAIXPH_NormalVsRelapse.png
+│   │       ├── somaticCircos_TARGET-10-PANDWE_NormalVsPrimary.png
+│   │       ├── somaticCircos_TARGET-10-PANDWE_NormalVsRecurrent.png
+│   │       ├── somaticCircos_TARGET-10-PASSXJ_NormalVsRecurrent.png
+│   │       ├── somaticCircos_TARGET-10-PASUBW_NormalVsPrimary.png
+│   │       ├── somaticCircos_TARGET-10-PASUBW_NormalVsRecurrent.png
+│   │       ├── somaticCircos_TARGET-10-PATTEE_NormalVsPrimary.png
+│   │       ├── somaticCircos_TARGET-10-PATTEE_NormalVsRecurrent.png
+│   │       └── somaticCircos_TARGET-10-PATTEE_NormalVsRelapse.png
+│   └── WT
+│       └── images -> /local/target_data/download/WT/CGI/Circos
+├── t
+│   ├── 001_base.t
+│   └── 002_index_route.t
+└── views
+    ├── circos.tt
+    ├── index.tt
+    ├── index.tt.orig
+    └── layouts
+        ├── main.tt
+        └── main.tt.orig
+
+27 directories, 49 files
