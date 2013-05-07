@@ -2,9 +2,11 @@
 
 $ yum install gd-devel gd-progs libjpeg-devel libtiff-devel libpng-devel libxml2-devel expat-devel
 
+
 # The rest do as system user hosting stack in their $HOME (not as another user and then changing ownership, perlbrew and cpanminus create important hidden directories and stuff in $HOME):
 
 $ mkdir -p $HOME/soft/perl5
+
 
 # Add all following to $HOME/.bash_profile:
 
@@ -56,13 +58,16 @@ export PERLBREW_CONFIGURE_FLAGS
 
 -------------------------------------------------------
 
+
 # Source .bash_profile or just log out and log back in:
 
 $ . $HOME/.bash_profile
 
+
 # Get and upgrade perlbrew:
 
 $ curl -kL http://install.perlbrew.pl | bash
+
 
 # Build and install Perl
 
@@ -70,9 +75,11 @@ $ perlbrew init
 $ perlbrew available
 $ perlbrew install --verbose perl-5.16.3 --as perl-5.16.3-centos6.4
 
+
 # Using perlbrew install --switch option above doesn't always switch properly so instead after:
 
 $ perlbrew switch perl-5.16.3-centos6.4
+
 
 # Get and upgrade cpanminus
 # Don't like where perlbrew install-cpanm puts cpanm because get stupid --self-upgrade messages so instead:
@@ -82,9 +89,11 @@ $ curl -kLO http://xrl.us/cpanm
 $ chmod u+x cpanm
 $ cpanm --self-upgrade
 
+
 # Install CPAN libraries (library order important for tests):
 
 $ cpanm -v Clone JSON::XS JSON YAML Image::Info Image::Size Module::Refresh Template Plack Dancer Dancer::Plugin::Thumbnail Starman
+
 
 # Finally make sure the TARGET data filesystem is mounted:
 
@@ -92,14 +101,26 @@ $ df -h
 
 ncifs-target-p:/cbiit/target    101T   81T   21T  80% /local/target_data
 
+
 # Get NCI-TARGET-Circos application:
 
 $ cd $SOFT_HOME
-$ svn export https://..../NCI-TARGET-Circos/trunk NCI-TARGET-Circos
+$ svn export https://ncisvn.nci.nih.gov/svn/target-initiative/NCI-TARGET-Circos/trunk NCI-TARGET-Circos
 
-# Start up application server:
 
-$ cd NCI-TARGET-Circos
+# Make "images" directory symlinks in every web application public disease project folder:
+
+$ cd $SOFT_HOME/NCI-TARGET-Circos/public
+$ ln -s /local/target_data/download/ALL/CGI/Circos ALL/images
+$ ln -s /local/target_data/download/AML/CGI/Circos AML/images
+$ ln -s /local/target_data/download/NBL/CGI/Circos NBL/images
+$ ln -s /local/target_data/download/OS/CGI/Circos OS/images
+$ ln -s /local/target_data/download/WT/CGI/Circos WT/images
+
+
+# Start up application server, you should see "starman master" and child "starman worker" processes in ps:
+
+$ cd $SOFT_HOME/NCI-TARGET-Circos
 $ ./bin/circos_server.pl --help
 Usage:
      circos_server.pl {start|stop|status} [options]
@@ -114,7 +135,6 @@ Usage:
 
 $ ./bin/circos_server.pl start
 
-# You will see starman master and worker processes in ps
 
 # Add circos_server.pl to init.d maybe using chkconfig (will need to make chkconfig header in script then)
 
