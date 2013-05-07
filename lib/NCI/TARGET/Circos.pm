@@ -64,15 +64,13 @@ get '/:disease' => sub {
 };
 
 get '/:disease/thumb/:w/:image' => sub {
-    my $disease_image_dir = config->{'public'} . '/' . param('disease') . '/images';
-    resize $disease_image_dir . '/' . param('image') => {
+    resize config->{'public'} . '/' . param('disease') . '/images/' . param('image') => {
         w => param('w') || $default_thumb_w,
     };
 };
 
 get '/:disease/thumb/legend/:w/:image' => sub {
-    my $disease_image_dir = config->{'public'} . '/' . param('disease') . '/images';
-    resize $disease_image_dir . '/' . param('image') => {
+    resize config->{'public'} . '/' . param('disease') . '/images/' . param('image') => {
         w => param('w') || $default_legend_thumb_w,
     };
 };
