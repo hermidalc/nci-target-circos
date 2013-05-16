@@ -22,6 +22,7 @@ select(STDOUT); $| = 1;
 # config
 my $pid_file = "$FindBin::Bin/../" . fileparse($0, qr/\.[^.]*/) . '.pid';
 my $app_file = "$FindBin::Bin/circos_app.pl";
+my $error_log_file = "$FindBin::Bin/../logs/starman_error.log";
 
 # defaults
 my $num_workers = 5;
@@ -49,7 +50,7 @@ sub start {
     # get path to perl bin dir
     (my $PERLBIN = $^X) =~ s/\/perl$//;
     my $start_cmd_str = 
-        "$PERLBIN/plackup --daemonize --env $app_env --server Starman --listen $host:$port --workers $num_workers --pid $pid_file --app $app_file";
+        "$PERLBIN/plackup --daemonize --env $app_env --server Starman --listen $host:$port --workers $num_workers --pid $pid_file --app $app_file --error-log $error_log_file";
     print "$start_cmd_str\n" if $debug;;
     print 'Starting Circos Application Server...';
     if (system(split(' ', $start_cmd_str)) == 0) {
