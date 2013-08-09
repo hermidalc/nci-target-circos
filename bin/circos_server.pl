@@ -96,6 +96,12 @@ sub status {
     }
 }
 
+sub restart {
+    &stop;
+    sleep 5;
+    &start;
+}
+
 __END__
 
 =head1 NAME 
