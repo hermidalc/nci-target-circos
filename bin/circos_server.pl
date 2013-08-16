@@ -37,8 +37,8 @@ GetOptions(
     'port|p=i'    => \$port,
     'debug|d'     => \$debug,
 ) || pod2usage(-verbose => 0);
-pod2usage(-message => 'Missing or invalid {start|stop} required parameter', -verbose => 0)
-    unless @ARGV and $ARGV[0] =~ /^(start|stop|status)$/i;
+pod2usage(-message => 'Missing or invalid {start|stop|status|restart} required parameter', -verbose => 0)
+    unless @ARGV and $ARGV[0] =~ /^(start|stop|status|restart)$/i;
 my $cmd_type = shift @ARGV;
 {
     no strict 'refs';
