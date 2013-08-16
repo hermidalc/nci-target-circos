@@ -9,7 +9,7 @@ our $VERSION = '0.1';
 
 # defaults
 my $default_num_display_cols = 3;
-my $default_thumb_w = 350;
+my $default_thumb_w = 500;
 my $default_overlay_thumb_w = 800;
 my $default_legend_thumb_w = 100;
 my $lightbox_thumb_w = 700;
