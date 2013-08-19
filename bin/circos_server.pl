@@ -22,8 +22,7 @@ select(STDOUT); $| = 1;
 # config
 my $pid_file = "$FindBin::Bin/../" . fileparse($0, qr/\.[^.]*/) . '.pid';
 my $app_file = "$FindBin::Bin/circos_app.pl";
-#my $error_log_file = "$FindBin::Bin/../logs/starman_error.log";
-my $error_log_file = "/tmp/starman_error.log";
+my $error_log_file = "$FindBin::Bin/../logs/starman_error.log";
 
 # defaults
 my $num_workers = 5;
