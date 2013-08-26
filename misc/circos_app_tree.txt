@@ -51,6 +51,8 @@ NCI-TARGET-Circos/
 │   │   └── images -> /local/target_data/download/NBL/CGI/Circos
 │   ├── OS
 │   │   └── images -> /local/target_data/download/OS/CGI/Circos
+│   ├── PPTP
+│   │   └── images -> /local/target_data/download/PPTP/CGI/Circos
 │   ├── TEST
 │   │   └── images
 │   │       ├── somaticCircosLegend.png
