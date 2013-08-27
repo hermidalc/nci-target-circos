@@ -11,11 +11,11 @@ function updateQueryString(url, param, value) {
 </script>
 <table class="center">
     <tr>
-        [% IF arrange_by -%]
+    [% IF arrange_by -%]
         <th colspan="[% num_display_cols + 1 %]">[% page_title %]</th>
-        [% ELSE -%]
+    [% ELSE -%]
         <th colspan="[% num_display_cols %]">[% page_title %]</th>
-        [% END -%]
+    [% END -%]
     </tr>
     <tr>
     [% IF not arrange_by -%]
@@ -26,40 +26,40 @@ function updateQueryString(url, param, value) {
             Arrange By: 
             <select onchange="window.location.href=updateQueryString(window.location.href,'arrange_by',this.value);">
                 <option></option>
-        [% IF arrange_by == "case_id_state_cmp" -%]
+    [% IF arrange_by == "case_id_state_cmp" -%]
                 <option selected="true" value="case_id_state_cmp">Case ID x Disease State Comparison</option>
-        [% ELSE -%]
+    [% ELSE -%]
                 <option value="case_id_state_cmp">Case ID x Disease State Comparison</option>
-        [% END -%]
+    [% END -%]
             </select>
-        [% IF not arrange_by -%]
+    [% IF not arrange_by -%]
             Columns:
             <select onchange="window.location.href=updateQueryString(window.location.href, 'cols', this.value);">
-            [% FOREACH i IN [ 1 .. 15 ] -%]
-                [% IF i == num_display_cols -%]
+        [% FOREACH i IN [ 1 .. 15 ] -%]
+            [% IF i == num_display_cols -%]
                 <option selected="true">[% i %]</option>
-                [% ELSE -%]
+            [% ELSE -%]
                 <option>[% i %]</option>
-                [% END -%]
             [% END -%]
-            </select>
         [% END -%]
+            </select>
+    [% END -%]
             Size: 
             <select onchange="window.location.href=updateQueryString(window.location.href, 'tsize', this.value);">
-                [% FOREACH w IN [ 100,150,200,250,300,350,400,450,500,550,650,700,750,800,850,900,950,1000 ] -%]
-                    [% IF w == thumb_w -%]
+        [% FOREACH w IN [ 100,150,200,250,300,350,400,450,500,550,650,700,750,800,850,900,950,1000 ] -%]
+            [% IF w == thumb_w -%]
                 <option selected="true">[% w %]</option>
-                    [% ELSE -%]
+            [% ELSE -%]
                 <option>[% w %]</option>
-                    [% END -%]
-                [% END -%]
+            [% END -%]
+        [% END -%]
             </select>
         </td>
-        [% IF not arrange_by -%]
+    [% IF not arrange_by -%]
         <td style="text-align:right;" rowspan="2">
-        [% ELSE -%]
+    [% ELSE -%]
         <td style="text-align:right;">
-        [% END -%]
+    [% END -%]
             <a onclick="var legendWindow = window.open('/[% disease %]/images/[% legend_image_file %]', 'legendWindow', 
                 'width=[% legend_w + 2 %],height=[% legend_h + 2 %],status=0,location=0,resizable=0,menubar=0,toolbar=0,directories=0,scrollbars=0');
                 legendWindow.focus();">
@@ -94,13 +94,13 @@ function updateQueryString(url, param, value) {
             <a href="/[% disease %]/thumb/[% lightbox_thumb_w %]/[% image_files.$file_idx %]" rel="lightbox[circos]"
                title="[% circos_types.$file_idx _ ' | ' _ target_case_ids.$file_idx _ ' | ' _ cmp_types.$file_idx %]">
                 <img src="/[% disease %]/thumb/[% thumb_w %]/[% image_files.$file_idx %]"/>
-                [% IF thumb_w == 100 -%]
+                    [% IF thumb_w == 100 -%]
                 <div class="caption tiny">
-                [% ELSIF thumb_w == 150 -%]
+                    [% ELSIF thumb_w == 150 -%]
                 <div class="caption small">
-                [% ELSE -%]
+                    [% ELSE -%]
                 <div class="caption">
-                [% END -%]
+                    [% END -%]
                     [% circos_types.$file_idx _ '<br/>' _ target_case_ids.$file_idx _ '<br/>' _ cmp_types.$file_idx %]
                 </div>
             </a>
@@ -137,18 +137,18 @@ function updateQueryString(url, param, value) {
             <a href="/[% disease %]/thumb/[% lightbox_thumb_w %]/[% image_file %]" rel="lightbox[circos]" 
                title="[% circos_types.$file_idx _ ' | ' _ target_case_ids.$file_idx _ ' | ' _ cmp_types.$file_idx %]">
                 <img src="/[% disease %]/thumb/[% thumb_w %]/[% image_file %]"/>
-                [% IF thumb_w == 100 -%]
+                    [% IF thumb_w == 100 -%]
                 <div class="caption tiny">
-                [% ELSIF thumb_w == 150 -%]
+                    [% ELSIF thumb_w == 150 -%]
                 <div class="caption small">
-                [% ELSE -%]
+                    [% ELSE -%]
                 <div class="caption">
-                [% END -%]
+                    [% END -%]
                     [% circos_types.$file_idx _ '<br/>' _ target_case_ids.$file_idx _ '<br/>' _ cmp_types.$file_idx %]
                 </div>
             </a>
         </td>
-                [% file_idx = file_idx + 1 -%]
+                    [% file_idx = file_idx + 1 -%]
                 [% ELSE -%]
         <td>&nbsp;</td>
                 [% END -%]
