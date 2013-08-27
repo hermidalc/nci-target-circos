@@ -61,7 +61,10 @@ get '/:disease' => sub {
                 ? scalar(@unique_cmp_types) 
                 : ( param('cols') || $default_num_display_cols ),
         'image_files' => \@image_files,
-        'legend_file' => basename($legend_file_name),
+        'legend_file' => 
+            $legend_file_name 
+                ? basename($legend_file_name)
+                : '',
         'arrange_by' => param('arrange_by'),
         'thumb_w' => param('tsize') || $default_thumb_w,
         'legend_thumb_w' => $default_legend_thumb_w,
