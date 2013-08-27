@@ -107,9 +107,9 @@ function updateQueryString(url, param, value) {
             <a href="/[% disease %]/thumb/[% lightbox_thumb_w %]/[% image_files.$file_idx %]" rel="lightbox[circos]"
                title="[% circos_types.$file_idx _ ' | ' _ target_case_ids.$file_idx _ ' | ' _ cmp_types.$file_idx %]">
                 <img src="/[% disease %]/thumb/[% thumb_w %]/[% image_files.$file_idx %]"/>
-                    [% IF thumb_w == 100 -%]
+                    [% IF thumb_w <= 150 -%]
                 <div class="caption tiny">
-                    [% ELSIF thumb_w == 150 -%]
+                    [% ELSIF thumb_w <= 250 -%]
                 <div class="caption small">
                     [% ELSE -%]
                 <div class="caption">
@@ -150,9 +150,9 @@ function updateQueryString(url, param, value) {
             <a href="/[% disease %]/thumb/[% lightbox_thumb_w %]/[% image_file %]" rel="lightbox[circos]" 
                title="[% circos_types.$file_idx _ ' | ' _ target_case_ids.$file_idx _ ' | ' _ cmp_types.$file_idx %]">
                 <img src="/[% disease %]/thumb/[% thumb_w %]/[% image_file %]"/>
-                    [% IF thumb_w == 100 -%]
+                    [% IF thumb_w <= 150 -%]
                 <div class="caption tiny">
-                    [% ELSIF thumb_w == 150 -%]
+                    [% ELSIF thumb_w <= 250 -%]
                 <div class="caption small">
                     [% ELSE -%]
                 <div class="caption">
