@@ -171,7 +171,9 @@ function updateQueryString(url, param, value) {
     [% END -%]
 </table>
 [% ELSE -%]
-<div style="font-weight:bold; font-size:24px; padding-top:30px">No Circos plots exist yet for [% disease %]</div>
+<div style="font-weight:bold; font-size:24px; padding-top:30px">
+    No Circos plots exist yet for [% disease _ ' ' _ subgrp %]
+</div>
 [% END -%]
 
 [% #USE Dumper -%]
