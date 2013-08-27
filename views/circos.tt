@@ -54,7 +54,7 @@ function updateQueryString(url, param, value) {
             [% END -%]
         [% END -%]
             </select>
-            [% IF subgrps -%]
+            [% IF subgrps.size -%]
             Show Subgroup:
             <select onchange="window.location.href=updateQueryString(window.location.href, 'subgrp', this.value);">
                 <option></option>
@@ -177,5 +177,5 @@ function updateQueryString(url, param, value) {
 [% END -%]
 
 [% #USE Dumper -%]
-[% #Dumper.dump_html(num_cmp_type_images) -%]
+[% #Dumper.dump_html(subgrps) -%]
 
