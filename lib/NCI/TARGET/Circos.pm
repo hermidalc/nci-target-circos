@@ -19,11 +19,21 @@ get '/' => sub {
 };
 
 get '/:disease' => sub {
-    my (@image_files, $legend_image_file, @circos_types, 
-        @target_case_ids, @cmp_types, %num_cmp_type_images);
+    my (@image_files, @circos_types, @target_case_ids, 
+        @cmp_types, %num_cmp_type_images, @subgroups);
     my $disease_image_dir = config->{'public'} . '/' . param('disease') . '/images';
-    for my $image_file_name (<$disease_image_dir/*.png>) {
-        if ($image_file_name !~ /legend\..+?$/i) {
+    # legend
+    my ($legend_file_name) = grep { m/legend\..+?$/i } <$disease_image_dir/*.png>;
+    # subgroups (i.e. subdirectories)
+    for my $file (<$disease_image_dir/*>) {
+        push @subgroups, (fileparse($file))[0] if -d $file;
+    }
+    my $image_dir = $disease_image_dir;
+    if (param('subgrp') and -d $disease_image_dir . '/' . param('subgrp')) {
+        $image_dir .= '/' . param('subgrp');
+    }
+    for my $image_file_name (<$image_dir/*.png>) {
+        if ($image_file_name ne $legend_file_name) {
             push @image_files, basename($image_file_name);
             my $image_file_basename = fileparse($image_file_name, qr/\.[^.]*/);
             my ($circos_type, $target_case_id, $disease_state_cmp_type) = 
@@ -33,12 +43,9 @@ get '/:disease' => sub {
             push @cmp_types, $disease_state_cmp_type;
             $num_cmp_type_images{$disease_state_cmp_type}++;
         }
-        else {
-            $legend_image_file = basename($image_file_name);
-        }
     }
     my @unique_cmp_types = sort keys %num_cmp_type_images;
-    my ($legend_w, $legend_h) = imgsize("$disease_image_dir/$legend_image_file");
+    my ($legend_w, $legend_h) = imgsize($legend_file_name);
     template 'circos' => {
         'page_title' => 'NCI TARGET ' . param('disease') . ' CGI Circos Plots',
         'disease' => param('disease'),
@@ -47,12 +54,14 @@ get '/:disease' => sub {
         'cmp_types' => \@cmp_types,
         'unique_cmp_types' => \@unique_cmp_types,
         'num_cmp_type_images' => \%num_cmp_type_images,
+        'subgrps' => \@subgroups,
+        'subgrp' => param('subgrp'),
         'num_display_cols' => 
             param('arrange_by') 
                 ? scalar(@unique_cmp_types) 
                 : ( param('cols') || $default_num_display_cols ),
         'image_files' => \@image_files,
-        'legend_image_file' => $legend_image_file,
+        'legend_file' => basename($legend_file_name),
         'arrange_by' => param('arrange_by'),
         'thumb_w' => param('tsize') || $default_thumb_w,
         'legend_thumb_w' => $default_legend_thumb_w,

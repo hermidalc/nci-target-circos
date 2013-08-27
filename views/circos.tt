@@ -54,16 +54,29 @@ function updateQueryString(url, param, value) {
             [% END -%]
         [% END -%]
             </select>
+            [% IF subgrp -%]
+            Show Subgroup:
+            <select onchange="window.location.href=updateQueryString(window.location.href, 'subgrp', this.value);">
+                <option></option>
+                [% FOREACH s IN subgrps -%]
+                    [% IF s == subgrp -%]
+                <option selected="true">[% s %]</option>
+                    [% ELSE -%]
+                <option>[% s %]</option>
+                    [% END -%]
+                [% END -%]
+            </select>
+            [% END -%]
         </td>
     [% IF not arrange_by -%]
         <td style="text-align:right;" rowspan="2">
     [% ELSE -%]
         <td style="text-align:right;">
     [% END -%]
-            <a onclick="var legendWindow = window.open('/[% disease %]/images/[% legend_image_file %]', 'legendWindow', 
+            <a onclick="var legendWindow = window.open('/[% disease %]/images/[% legend_file %]', 'legendWindow', 
                 'width=[% legend_w + 2 %],height=[% legend_h + 2 %],status=0,location=0,resizable=0,menubar=0,toolbar=0,directories=0,scrollbars=0');
                 legendWindow.focus();">
-                <img src="/[% disease %]/thumb/legend/[% legend_thumb_w %]/[% legend_image_file %]"/>
+                <img src="/[% disease %]/thumb/legend/[% legend_thumb_w %]/[% legend_file %]"/>
                 <div class="caption right">Legend</div>
             </a>
         </td>
