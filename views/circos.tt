@@ -54,12 +54,12 @@ function updateQueryString(url, param, value) {
             [% END -%]
         [% END -%]
             </select>
-            [% IF subgrps.size -%]
-            Show Subgroup:
-            <select onchange="window.location.href=updateQueryString(window.location.href, 'subgrp', this.value);">
+            [% IF subprojs.size -%]
+            Subproject:
+            <select onchange="window.location.href=updateQueryString(window.location.href, 'subproj', this.value);">
                 <option></option>
-                [% FOREACH s IN subgrps -%]
-                    [% IF s == subgrp -%]
+                [% FOREACH s IN subprojs -%]
+                    [% IF s == subproj -%]
                 <option selected="true">[% s %]</option>
                     [% ELSE -%]
                 <option>[% s %]</option>
@@ -172,10 +172,10 @@ function updateQueryString(url, param, value) {
 </table>
 [% ELSE -%]
 <div style="font-weight:bold; font-size:24px; padding-top:30px">
-    No Circos plots exist yet for [% disease _ ' ' _ subgrp %]
+    No Circos plots exist yet for [% disease _ ' ' _ subproj %]
 </div>
 [% END -%]
 
 [% #USE Dumper -%]
-[% #Dumper.dump_html(subgrps) -%]
+[% #Dumper.dump_html(subprojs) -%]
 

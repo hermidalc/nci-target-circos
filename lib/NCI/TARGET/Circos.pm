@@ -20,17 +20,17 @@ get '/' => sub {
 
 get '/:disease' => sub {
     my (@image_files, @circos_types, @target_case_ids, 
-        @cmp_types, %num_cmp_type_images, @subgroups);
+        @cmp_types, %num_cmp_type_images, @subprojects);
     my $disease_image_dir = config->{'public'} . '/' . param('disease') . '/images';
     # legend
     my ($legend_file_name) = grep { m/legend\..+?$/i } <$disease_image_dir/*.png>;
-    # subgroups (i.e. subdirectories)
+    # subprojects (i.e. subdirectories)
     for my $file (<$disease_image_dir/*>) {
-        push @subgroups, (fileparse($file))[0] if -d $file;
+        push @subprojects, (fileparse($file))[0] if -d $file;
     }
     my $image_dir = $disease_image_dir;
-    if (param('subgrp') and -d $disease_image_dir . '/' . param('subgrp')) {
-        $image_dir .= '/' . param('subgrp');
+    if (param('subproj') and -d $disease_image_dir . '/' . param('subproj')) {
+        $image_dir .= '/' . param('subproj');
     }
     for my $image_file_name (<$image_dir/*.png>) {
         if ($image_file_name ne $legend_file_name) {
@@ -47,15 +47,15 @@ get '/:disease' => sub {
     my @unique_cmp_types = sort keys %num_cmp_type_images;
     my ($legend_w, $legend_h) = imgsize($legend_file_name);
     template 'circos' => {
-        'page_title' => 'NCI TARGET ' . param('disease') . ' ' . ( param('subgrp') || '' ) . ' CGI Circos Plots',
+        'page_title' => 'NCI TARGET ' . param('disease') . ' ' . ( param('subproj') || '' ) . ' CGI Circos Plots',
         'disease' => param('disease'),
         'circos_types' => \@circos_types,
         'target_case_ids' => \@target_case_ids,
         'cmp_types' => \@cmp_types,
         'unique_cmp_types' => \@unique_cmp_types,
         'num_cmp_type_images' => \%num_cmp_type_images,
-        'subgrps' => \@subgroups,
-        'subgrp' => param('subgrp'),
+        'subprojs' => \@subprojects,
+        'subproj' => param('subproj'),
         'num_display_cols' => 
             param('arrange_by') 
                 ? scalar(@unique_cmp_types) 
