@@ -8,21 +8,41 @@ function updateQueryString(url, param, value) {
     else
         return url + separator + param + "=" + value;
 }
+function setupOverlay() {
+    var selectedCheckboxes = [];
+    var checkboxes = document.getElementsByName("circos_plot_checkboxes");
+    for (var i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked && selectedCheckboxes.length < 2) {
+            selectedCheckboxes.push(checkboxes[i]);
+        }
+    }
+    if (selectedCheckboxes.length == 2) {
+        var overlayWindow = window.open(
+            '/[% disease %]/overlay?img0=' + selectedCheckboxes[1].value + '&img1=' + selectedCheckboxes[0].value, 
+            'overlayWindow', 
+            'width=[% overlay_thumb_w + 250 %],height=[% overlay_thumb_w %],status=0,location=0,resizable=1,menubar=0,toolbar=0,directories=0,scrollbars=1'
+        );
+        overlayWindow.focus();
+    }
+    else {
+        alert('First select two plots to overlay');
+    }
+}
+function clearOverlay() {
+    var checkboxes = document.getElementsByName("circos_plot_checkboxes");
+    for (var i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked) {
+            checkboxes[i].checked = false;
+        }
+    }
+}
 </script>
 <table class="center">
     <tr>
-    [% IF arrange_by -%]
-        <th colspan="[% num_display_cols + 1 %]">[% page_title %]</th>
-    [% ELSE -%]
         <th colspan="[% num_display_cols %]">[% page_title %]</th>
-    [% END -%]
     </tr>
     <tr>
-    [% IF not arrange_by -%]
-        <td colspan="[% num_display_cols - 1 %]" style="vertical-align:bottom; padding-top:20px;">
-    [% ELSE -%]
-        <td colspan="[% num_display_cols %]">
-    [% END -%]
+        <td colspan="[% num_display_cols %]" style="padding-bottom:20px;">
             Arrange By: 
             <select onchange="window.location.href=updateQueryString(window.location.href,'arrange_by',this.value);">
                 <option></option>
@@ -68,19 +88,17 @@ function updateQueryString(url, param, value) {
             </select>
             [% END -%]
         </td>
-    [% IF not arrange_by -%]
-        <td style="text-align:right;" rowspan="2">
-    [% ELSE -%]
-        <td style="text-align:right;">
-    [% END -%]
-            <a onclick="var legendWindow = window.open('/[% disease %]/images/[% legend_file %]', 'legendWindow', 
-                'width=[% legend_w + 2 %],height=[% legend_h + 2 %],status=0,location=0,resizable=0,menubar=0,toolbar=0,directories=0,scrollbars=0');
-                legendWindow.focus();">
-                <img src="/[% disease %]/thumb/legend/[% legend_thumb_w %]/[% legend_file %]"/>
-                <div class="caption right">Legend</div>
-            </a>
-        </td>
     </tr>
+    <div id="legend">
+        <a onclick="var legendWindow = window.open('/[% disease %]/images/[% legend_file %]', 'legendWindow', 
+            'width=[% legend_w + 2 %],height=[% legend_h + 2 %],status=0,location=0,resizable=0,menubar=0,toolbar=0,directories=0,scrollbars=0');
+            legendWindow.focus();">
+            <img src="/[% disease %]/thumb/legend/[% legend_thumb_w %]/[% legend_file %]"/>
+            <div class="caption right">Legend</div>
+        </a>
+        <div><input type="button" onclick="setupOverlay();" value="Overlay Selected Plots"/></div>
+        <div style="padding-top:10px"><input type="button" onclick="clearOverlay();" value="Clear Selections"/></div>
+    </div>
     [% IF not arrange_by -%]
     <tr>
         <td colspan="[% num_display_cols %]" style="vertical-align:top;">
@@ -96,7 +114,6 @@ function updateQueryString(url, param, value) {
         [% FOREACH cmp_type IN unique_cmp_types -%]
         <td style="font-weight: bold;">[% cmp_type %] ([% num_cmp_type_images.$cmp_type %])</td>
         [% END -%]
-        <td>&nbsp;</td>
     </tr>
         [% WHILE file_idx <= image_files.max -%]
     <tr>
@@ -117,6 +134,9 @@ function updateQueryString(url, param, value) {
                     [% circos_types.$file_idx _ '<br/>' _ target_case_ids.$file_idx _ '<br/>' _ cmp_types.$file_idx %]
                 </div>
             </a>
+            <div>
+                <input type="checkbox" name="circos_plot_checkboxes" value="[% image_files.$file_idx %]" onchange="" />
+            </div>
         </td>
                     [% row_image_files.push(image_files.$file_idx) -%]
                     [% file_idx = file_idx + 1 -%]
@@ -126,18 +146,6 @@ function updateQueryString(url, param, value) {
         </td>
                 [% END -%]
             [% END -%]
-        <td>
-            [% IF row_image_files.size == 2 -%]
-            <a onclick="var overlayWindow = window.open('/[% disease %]/overlay?img0=[% row_image_files.1 %]&img1=[% row_image_files.0 %]', 'overlayWindow', 
-                'width=[% overlay_thumb_w + 250 %],height=[% overlay_thumb_w %],status=0,location=0,resizable=0,menubar=0,toolbar=0,directories=0,scrollbars=0');
-                overlayWindow.focus();"
-               style="font-weight:bold;">
-                &larr; OVERLAY PLOTS
-            </a>
-            [% ELSE -%]
-            &nbsp;
-            [% END -%]
-        </td>
     </tr>
         [% END -%]
     [% ELSE -%]

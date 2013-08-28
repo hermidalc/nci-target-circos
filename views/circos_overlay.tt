@@ -38,8 +38,9 @@ function updateQueryString(url, param, value) {
             [% END -%]
         </select>
     </div>
+    <div style="padding-bottom:10px; font-weight:bold; font-size:24px; text-wrap:none;">[% case_id_0 %]</div>
     <div style="padding-bottom:10px; font-weight:bold; font-size:18px;">[% label_file_0 %]</div>
     <div id="slider-vertical" style="height:200px;"></div>
     <div style="padding-top:10px; font-weight:bold; font-size:18px;">[% label_file_1 %]</div>
-    <div style="padding-top:30px; font-weight:bold; font-size:24px; text-wrap:none;">[% case_id %]</div>
+    <div style="padding-top:10px; font-weight:bold; font-size:24px; text-wrap:none;">[% case_id_1 %]</div>
 </div>

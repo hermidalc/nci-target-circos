@@ -47,7 +47,9 @@ get '/:disease' => sub {
     my @unique_cmp_types = sort keys %num_cmp_type_images;
     my ($legend_w, $legend_h) = imgsize($legend_file_name);
     template 'circos' => {
-        'page_title' => 'NCI TARGET ' . param('disease') . ' ' . ( param('subproj') || '' ) . ' CGI Circos Plots',
+        'page_title' => 
+            'NCI TARGET ' . param('disease') . ' ' . 
+            ( param('subproj') || '' ) . ' CGI Circos Plots',
         'disease' => param('disease'),
         'circos_types' => \@circos_types,
         'target_case_ids' => \@target_case_ids,
@@ -96,8 +98,9 @@ get '/:disease/overlay' => sub {
         $image_file_1_basename =~ /^(.+?)_(.+?)_(.+?)$/;
     template 'circos_overlay' => {
         'disease' => param('disease'),
-        'case_id' => $target_case_id_0,
         'thumb_w' => param('tsize') || $default_overlay_thumb_w,
+        'case_id_0' => $target_case_id_0,
+        'case_id_1' => $target_case_id_1,
         'image_file_0' => param('img0'),
         'image_file_1' => param('img1'),
         'label_file_0' => $disease_state_cmp_type_0,
