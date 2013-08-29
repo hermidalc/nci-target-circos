@@ -4,14 +4,15 @@ margin-bottom: 25px;
 margin-left: auto;
 margin-right: auto;
 padding: 0;
-#background-color: #ddd;
-#background-image: url("/images/perldancer-bg.jpg");
-#background-repeat: no-repeat;
-#background-position: top left;
+/* background-color: #ddd;
+background-image: url("/images/perldancer-bg.jpg");
+background-repeat: no-repeat;
+background-position: top left;
+*/
 background-image:url(http://ocg.cancer.gov/sites/all/themes/ocg/images/bkg-tile.png);
 background-repeat:repeat;
 text-align: center;
-#font-family: "Lucida Grande", "Bitstream Vera Sans", "Verdana";
+/* font-family: "Lucida Grande", "Bitstream Vera Sans", "Verdana"; */
 font-family: "FranklinGothicFSMedCdRegular", "Arial Narrow", Arial, sans-serif;
 font-size: 18px;
 color: #333;
@@ -68,6 +69,14 @@ padding-right: 2px;
 padding-bottom: 10px;
 margin: 0;
 white-space:nowrap;
+}
+
+td.selected {
+border: 2px darkred solid;
+}
+
+td.transparent {
+border: 2px solid transparent;
 }
 
 #page {

@@ -10,9 +10,9 @@ function updateQueryString(url, param, value) {
 }
 function setupOverlay() {
     var selectedCheckboxes = [];
-    var checkboxes = document.getElementsByName("circos_plot_checkboxes");
+    var checkboxes = document.getElementsByName('plotCheckboxes');
     for (var i = 0; i < checkboxes.length; i++) {
-        if (checkboxes[i].checked && selectedCheckboxes.length < 2) {
+        if (checkboxes[i].checked) {
             selectedCheckboxes.push(checkboxes[i]);
         }
     }
@@ -24,16 +24,30 @@ function setupOverlay() {
         );
         overlayWindow.focus();
     }
+    else if (selectedCheckboxes.length > 2) {
+        alert('Too many plots selected, click the Clear Selections button in the upper righthand corner and select two plots to overlay');
+    }
     else {
-        alert('First select two plots to overlay');
+        alert('Select two plots to overlay using the checkboxes below each plot');
     }
 }
 function clearOverlay() {
-    var checkboxes = document.getElementsByName("circos_plot_checkboxes");
+    var checkboxes = document.getElementsByName('plotCheckboxes');
+    var tds = document.getElementsByName('plotTds');
     for (var i = 0; i < checkboxes.length; i++) {
-        if (checkboxes[i].checked) {
-            checkboxes[i].checked = false;
-        }
+        checkboxes[i].checked = false;
+    }
+    for (var i = 0; i < tds.length; i++) {
+        tds[i].className = 'transparent';
+    }
+}
+function toggleHighlightBox(changedCheckbox, plotTdId) {
+    var plotTd = document.getElementById(plotTdId);
+    if (changedCheckbox.checked) {
+        plotTd.className = 'selected';
+    }
+    else {
+        plotTd.className = 'transparent';
     }
 }
 </script>
@@ -96,8 +110,10 @@ function clearOverlay() {
             <img src="/[% disease %]/thumb/legend/[% legend_thumb_w %]/[% legend_file %]"/>
             <div class="caption right">Legend</div>
         </a>
+    [% IF arrange_by -%]
         <div><input type="button" onclick="setupOverlay();" value="Overlay Selected Plots"/></div>
         <div style="padding-top:10px"><input type="button" onclick="clearOverlay();" value="Clear Selections"/></div>
+    [% END -%]
     </div>
     [% IF not arrange_by -%]
     <tr>
@@ -120,7 +136,7 @@ function clearOverlay() {
             [% row_image_files = [] -%]
             [% FOREACH col_type IN unique_cmp_types -%]
                 [% IF col_type == cmp_types.$file_idx -%]
-        <td>
+        <td id="plot-[% file_idx %]" class="transparent" name="plotTds">
             <a href="/[% disease %]/thumb/[% lightbox_thumb_w %]/[% image_files.$file_idx %]" rel="lightbox[circos]"
                title="[% circos_types.$file_idx _ ' | ' _ target_case_ids.$file_idx _ ' | ' _ cmp_types.$file_idx %]">
                 <img src="/[% disease %]/thumb/[% thumb_w %]/[% image_files.$file_idx %]"/>
@@ -135,7 +151,7 @@ function clearOverlay() {
                 </div>
             </a>
             <div>
-                <input type="checkbox" name="circos_plot_checkboxes" value="[% image_files.$file_idx %]" onchange="" />
+                <input type="checkbox" name="plotCheckboxes" value="[% image_files.$file_idx %]" onchange="toggleHighlightBox(this,'plot-[% file_idx %]');" />
             </div>
         </td>
                     [% row_image_files.push(image_files.$file_idx) -%]
