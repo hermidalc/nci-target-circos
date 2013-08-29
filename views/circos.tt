@@ -33,21 +33,22 @@ function setupOverlay() {
 }
 function clearOverlay() {
     var checkboxes = document.getElementsByName('plotCheckboxes');
-    var tds = document.getElementsByName('plotTds');
+    var tds = document.getElementsByClassName('selectedbox');
     for (var i = 0; i < checkboxes.length; i++) {
         checkboxes[i].checked = false;
     }
-    for (var i = 0; i < tds.length; i++) {
-        tds[i].className = 'transparent';
+    /* reverse loop because getElementsByClassName is live set and changes when I change class */
+    for (var i = tds.length - 1; i >= 0; --i) {
+        tds[i].className = 'transparentbox';
     }
 }
 function toggleHighlightBox(changedCheckbox, plotTdId) {
     var plotTd = document.getElementById(plotTdId);
     if (changedCheckbox.checked) {
-        plotTd.className = 'selected';
+        plotTd.className = 'selectedbox';
     }
     else {
-        plotTd.className = 'transparent';
+        plotTd.className = 'transparentbox';
     }
 }
 </script>
@@ -136,7 +137,7 @@ function toggleHighlightBox(changedCheckbox, plotTdId) {
             [% row_image_files = [] -%]
             [% FOREACH col_type IN unique_cmp_types -%]
                 [% IF col_type == cmp_types.$file_idx -%]
-        <td id="plot-[% file_idx %]" class="transparent" name="plotTds">
+        <td id="plot-[% file_idx %]" class="transparentbox">
             <a href="/[% disease %]/thumb/[% lightbox_thumb_w %]/[% image_files.$file_idx %]" rel="lightbox[circos]"
                title="[% circos_types.$file_idx _ ' | ' _ target_case_ids.$file_idx _ ' | ' _ cmp_types.$file_idx %]">
                 <img src="/[% disease %]/thumb/[% thumb_w %]/[% image_files.$file_idx %]"/>

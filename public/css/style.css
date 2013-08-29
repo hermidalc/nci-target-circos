@@ -71,11 +71,11 @@ margin: 0;
 white-space:nowrap;
 }
 
-td.selected {
+td.selectedbox {
 border: 2px darkred solid;
 }
 
-td.transparent {
+td.transparentbox {
 border: 2px solid transparent;
 }
 
