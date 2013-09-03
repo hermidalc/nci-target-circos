@@ -1,3 +1,7 @@
+#
+## NEW INSTALLATION
+#
+
 # As superuser:
 
 $ yum install gd-devel gd-progs libjpeg-devel libtiff-devel libpng-devel libxml2-devel expat-devel
@@ -108,16 +112,6 @@ $ cd $SOFT_HOME
 $ svn export https://ncisvn.nci.nih.gov/svn/target-initiative/NCI-TARGET-Circos/trunk NCI-TARGET-Circos
 
 
-# Make "images" directory symlinks in every web application public disease project folder:
-
-$ cd $SOFT_HOME/NCI-TARGET-Circos/public
-$ ln -s /local/target_data/download/ALL/CGI/Circos ALL/images
-$ ln -s /local/target_data/download/AML/CGI/Circos AML/images
-$ ln -s /local/target_data/download/NBL/CGI/Circos NBL/images
-$ ln -s /local/target_data/download/OS/CGI/Circos OS/images
-$ ln -s /local/target_data/download/WT/CGI/Circos WT/images
-
-
 # Start up application server, you should see "starman master" and child "starman worker" processes in ps:
 
 $ cd $SOFT_HOME/NCI-TARGET-Circos
@@ -133,8 +127,20 @@ Usage:
         --help                                  Display usage message and exit
         --version                               Display program version and exit
 
-$ ./bin/circos_server.pl start
+$ ./bin/circos_server.pl start -h `hostname` -p 8180
 
 
 # Add circos_server.pl to init.d maybe using chkconfig (will need to make chkconfig header in script then)
+
+#
+## UPDATES
+#
+
+# For deployment updates keep Circos application cache directory, remove application, export new code and move cache directory back:
+
+$ cd $SOFT_HOME
+$ mv NCI-TARGET-Circos/cache .
+$ rm -rf NCI-TARGET-Circos
+$ svn export https://ncisvn.nci.nih.gov/svn/target-initiative/NCI-TARGET-Circos/trunk NCI-TARGET-Circos
+$ mv cache NCI-TARGET-Circos/
 
