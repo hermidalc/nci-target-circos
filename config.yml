@@ -29,3 +29,5 @@ plugins:
     Thumbnail:
         cache: cache
         compression: 0
+
+disease_projs: [ 'ALL', 'AML', 'NBL', 'OS', 'WT', 'PPTP' ]
