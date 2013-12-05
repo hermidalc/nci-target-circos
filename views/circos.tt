@@ -1,12 +1,19 @@
 [% IF image_files.size -%]
+    [% disease_proj_path = subproj ? "$disease_proj/$subproj" : disease_proj -%]
 <script>
-function updateQueryString(url, param, value) {
+function updateQueryString(param, value) {
     var re = new RegExp("([?|&])" + param + "=.*?(&|$)","i");
+    var url = window.location.href;
     var separator = url.indexOf('?') !== -1 ? "&" : "?";
     if (url.match(re))
         return url.replace(re,'$1' + param + "=" + value + '$2');
     else
         return url + separator + param + "=" + value;
+}
+function updateUrlPath(subproj) {
+    var pathParts = window.location.pathname.split('/').slice(0,2);
+    if (subproj) pathParts.push(subproj);
+    return window.location.protocol + '//' + window.location.host + pathParts.join('/') + window.location.search;
 }
 function setupOverlay() {
     var selectedCheckboxes = [];
@@ -18,9 +25,9 @@ function setupOverlay() {
     }
     if (selectedCheckboxes.length == 2) {
         var overlayWindow = window.open(
-            '/[% disease %]/overlay?img0=' + selectedCheckboxes[1].value + '&img1=' + selectedCheckboxes[0].value, 
+            '/[% disease_proj_path %]/overlay?img0=' + selectedCheckboxes[1].value + '&img1=' + selectedCheckboxes[0].value, 
             'overlayWindow', 
-            'width=[% overlay_thumb_w + 250 %],height=[% overlay_thumb_w %],status=0,location=0,resizable=1,menubar=0,toolbar=0,directories=0,scrollbars=1'
+            'width=[% overlay_image_w + 250 %],height=[% overlay_image_w %],status=0,location=0,resizable=1,menubar=0,toolbar=0,directories=0,scrollbars=1'
         );
         overlayWindow.focus();
     }
@@ -59,7 +66,7 @@ function toggleHighlightBox(changedCheckbox, plotTdId) {
     <tr>
         <td colspan="[% num_display_cols %]" style="padding-bottom:20px;">
             Arrange By: 
-            <select onchange="window.location.href=updateQueryString(window.location.href,'arrange_by',this.value);">
+            <select onchange="window.location.href=updateQueryString('arrange_by',this.value);">
                 <option></option>
     [% IF arrange_by == "case_id_state_cmp" -%]
                 <option selected="true" value="case_id_state_cmp">Case ID x Disease State Comparison</option>
@@ -69,7 +76,7 @@ function toggleHighlightBox(changedCheckbox, plotTdId) {
             </select>
     [% IF not arrange_by -%]
             Columns:
-            <select onchange="window.location.href=updateQueryString(window.location.href, 'cols', this.value);">
+            <select onchange="window.location.href=updateQueryString('cols', this.value);">
         [% FOREACH i IN [ 1 .. 15 ] -%]
             [% IF i == num_display_cols -%]
                 <option selected="true">[% i %]</option>
@@ -80,9 +87,9 @@ function toggleHighlightBox(changedCheckbox, plotTdId) {
             </select>
     [% END -%]
             Size: 
-            <select onchange="window.location.href=updateQueryString(window.location.href, 'tsize', this.value);">
+            <select onchange="window.location.href=updateQueryString('tsize', this.value);">
         [% FOREACH w IN [ 100,150,200,250,300,350,400,450,500,550,650,700,750,800,850,900,950,1000 ] -%]
-            [% IF w == thumb_w -%]
+            [% IF w == image_w -%]
                 <option selected="true">[% w %]</option>
             [% ELSE -%]
                 <option>[% w %]</option>
@@ -91,7 +98,7 @@ function toggleHighlightBox(changedCheckbox, plotTdId) {
             </select>
             [% IF subprojs.size -%]
             Subproject:
-            <select onchange="window.location.href=updateQueryString(window.location.href, 'subproj', this.value);">
+            <select onchange="window.location.href=updateUrlPath(this.value);">
                 <option></option>
                 [% FOREACH s IN subprojs -%]
                     [% IF s == subproj -%]
@@ -105,10 +112,11 @@ function toggleHighlightBox(changedCheckbox, plotTdId) {
         </td>
     </tr>
     <div id="legend">
-        <a onclick="var legendWindow = window.open('/[% disease %]/images/[% legend_file %]', 'legendWindow', 
+        [%# legend image always from top-level disease_proj path -%]
+        <a onclick="var legendWindow = window.open('/[% disease_proj %]/image/[% legend_file %]', 'legendWindow', 
             'width=[% legend_w + 2 %],height=[% legend_h + 2 %],status=0,location=0,resizable=0,menubar=0,toolbar=0,directories=0,scrollbars=0');
             legendWindow.focus();">
-            <img src="/[% disease %]/thumb/legend/[% legend_thumb_w %]/[% legend_file %]"/>
+            <img src="/[% disease_proj_path %]/resized/[% legend_image_w %]/[% legend_file %]"/>
             <div class="caption right">Legend</div>
         </a>
     [% IF arrange_by -%]
@@ -135,15 +143,15 @@ function toggleHighlightBox(changedCheckbox, plotTdId) {
         [% WHILE file_idx <= image_files.max -%]
     <tr>
             [% row_image_files = [] -%]
-            [% FOREACH col_type IN unique_cmp_types -%]
-                [% IF col_type == cmp_types.$file_idx -%]
+            [% FOREACH cmp_type IN unique_cmp_types -%]
+                [% IF cmp_type == cmp_types.$file_idx -%]
         <td id="plot-[% file_idx %]" class="transparentbox">
-            <a href="/[% disease %]/thumb/[% lightbox_thumb_w %]/[% image_files.$file_idx %]" rel="lightbox[circos]"
+            <a href="/[% disease_proj_path %]/resized/[% lightbox_image_w %]/[% image_files.$file_idx %]" rel="lightbox[circos]"
                title="[% circos_types.$file_idx _ ' | ' _ target_case_ids.$file_idx _ ' | ' _ cmp_types.$file_idx %]">
-                <img src="/[% disease %]/thumb/[% thumb_w %]/[% image_files.$file_idx %]"/>
-                    [% IF thumb_w <= 150 -%]
+                <img src="/[% disease_proj_path %]/resized/[% image_w %]/[% image_files.$file_idx %]"/>
+                    [% IF image_w <= 150 -%]
                 <div class="caption tiny">
-                    [% ELSIF thumb_w <= 250 -%]
+                    [% ELSIF image_w <= 250 -%]
                 <div class="caption small">
                     [% ELSE -%]
                 <div class="caption">
@@ -172,12 +180,12 @@ function toggleHighlightBox(changedCheckbox, plotTdId) {
             [% FOREACH image_file IN col -%]
                 [% IF image_file -%]
         <td>
-            <a href="/[% disease %]/thumb/[% lightbox_thumb_w %]/[% image_file %]" rel="lightbox[circos]" 
+            <a href="/[% disease_proj_path %]/resized/[% lightbox_image_w %]/[% image_file %]" rel="lightbox[circos]" 
                title="[% circos_types.$file_idx _ ' | ' _ target_case_ids.$file_idx _ ' | ' _ cmp_types.$file_idx %]">
-                <img src="/[% disease %]/thumb/[% thumb_w %]/[% image_file %]"/>
-                    [% IF thumb_w <= 150 -%]
+                <img src="/[% disease_proj_path %]/resized/[% image_w %]/[% image_file %]"/>
+                    [% IF image_w <= 150 -%]
                 <div class="caption tiny">
-                    [% ELSIF thumb_w <= 250 -%]
+                    [% ELSIF image_w <= 250 -%]
                 <div class="caption small">
                     [% ELSE -%]
                 <div class="caption">
@@ -197,10 +205,12 @@ function toggleHighlightBox(changedCheckbox, plotTdId) {
 </table>
 [% ELSE -%]
 <div style="font-weight:bold; font-size:24px; padding-top:30px">
-    No Circos plots exist yet for [% disease _ ' ' _ subproj %]
+    No Circos plots exist yet for [% disease_proj _ ' ' _ subproj %]
 </div>
 [% END -%]
 
-[% #USE Dumper -%]
-[% #Dumper.dump_html(subprojs) -%]
+[%# USE Dumper -%]
+[%# Dumper.dump_html(image_files) -%]
+[%# Dumper.dump_html(cmp_types) -%]
+[%# Dumper.dump_html(unique_cmp_types) -%]
 

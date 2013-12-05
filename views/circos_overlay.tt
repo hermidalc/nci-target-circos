@@ -1,3 +1,4 @@
+[% disease_proj_path = subproj ? "$disease_proj/$subproj" : disease_proj -%]
 <script>
 $(function() {
     $( "#slider-vertical" ).slider({
@@ -12,8 +13,9 @@ $(function() {
         }
     });
 });
-function updateQueryString(url, param, value) {
+function updateQueryString(param, value) {
     var re = new RegExp("([?|&])" + param + "=.*?(&|$)","i");
+    var url = window.location.href;
     var separator = url.indexOf('?') !== -1 ? "&" : "?";
     if (url.match(re))
         return url.replace(re,'$1' + param + "=" + value + '$2');
@@ -22,15 +24,15 @@ function updateQueryString(url, param, value) {
 }
 </script>
 <div style="float:left;">
-    <img id="img0" style="position:absolute; z-index:0;" src="/[% disease %]/thumb/[% thumb_w %]/[% image_file_0 %]"/>
-    <img id="img1" style="position:absolute; z-index:1;" src="/[% disease %]/thumb/[% thumb_w %]/[% image_file_1 %]"/>
+    <img id="img0" style="position:absolute; z-index:0;" src="/[% disease_proj_path %]/resized/[% image_w %]/[% image_file_0 %]"/>
+    <img id="img1" style="position:absolute; z-index:1;" src="/[% disease_proj_path %]/resized/[% image_w %]/[% image_file_1 %]"/>
 </div>
-<div style="display:inline-block; padding-left:[% thumb_w + 10 %]px; padding-top:[% thumb_w / 3 %]px;">
+<div style="display:inline-block; padding-left:[% image_w + 10 %]px; padding-top:[% image_w / 3 %]px;">
     <div style="padding-bottom:20px;">
         Size: 
-        <select onchange="window.location.href=updateQueryString(window.location.href, 'tsize', this.value);">
+        <select onchange="window.location.href=updateQueryString('tsize', this.value);">
             [% FOREACH w IN [ 500,550,600,650,700,750,800,850,900,950,1000,1050,1100,1150,1200 ] -%]
-                [% IF w == thumb_w -%]
+                [% IF w == image_w -%]
             <option selected="true">[% w %]</option>
                 [% ELSE -%]
             <option>[% w %]</option>
