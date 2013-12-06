@@ -14,6 +14,7 @@ my $default_overlay_image_w = 800;
 my $default_legend_image_w = 100;
 my $lightbox_image_w = 700;
 my $image_file_ext = 'png';
+my $legend_file_name_regexp = qr/legend\..+?$/i;
 
 sub by_adj_image_file_name {
     my $a_basename = fileparse($a, qr/\.[^.]*/);
@@ -44,8 +45,6 @@ get qr/^\/([^\/]+)\/?([^\/]+)?\/?$/ => sub {
     my (@image_files, @circos_types, @target_case_ids, 
         @cmp_types, %num_cmp_type_images, @subprojects);
     my $disease_proj_image_dir = config->{'public'} . "/$disease_proj/images";
-    # legend
-    my ($legend_file_name) = grep { m/legend\..+?$/i } <$disease_proj_image_dir/*.$image_file_ext>;
     # subprojects (i.e. subdirectories)
     for my $file (<$disease_proj_image_dir/*>) {
         push @subprojects, (fileparse($file))[0] if -d $file;
@@ -54,10 +53,13 @@ get qr/^\/([^\/]+)\/?([^\/]+)?\/?$/ => sub {
     if ($subproj and -d "$disease_proj_image_dir/$subproj") {
         $image_dir .= "/$subproj";
     }
-    my $legend_file_basename = fileparse($legend_file_name, qr/\.[^.]*/);
+    # legend
+    my ($legend_file_name) = grep { m/$legend_file_name_regexp/ } <$disease_proj_image_dir/*.$image_file_ext>;
+    my $legend_file_basename = fileparse($legend_file_name, qr/\.[^.]*/) if defined $legend_file_name;
+    # images
     for my $image_file_name (sort by_adj_image_file_name <$image_dir/*.$image_file_ext>) {
         my $image_file_basename = fileparse($image_file_name, qr/\.[^.]*/);
-        if ($image_file_basename ne $legend_file_basename) {
+        if (defined $legend_file_basename and $image_file_basename ne $legend_file_basename) {
             push @image_files, basename($image_file_name);
             my ($circos_type, $target_case_id, $disease_state_cmp_type) = split /_/, $image_file_basename, 3;
             push @circos_types, $circos_type;
@@ -69,7 +71,7 @@ get qr/^\/([^\/]+)\/?([^\/]+)?\/?$/ => sub {
         }
     }
     my @unique_cmp_types = sort keys %num_cmp_type_images;
-    my ($legend_w, $legend_h) = imgsize($legend_file_name);
+    my ($legend_w, $legend_h) = imgsize($legend_file_name) if defined $legend_file_name;
     my $app_title_prefix = join(' ', (split '::', __PACKAGE__)[0..1]);
     template 'circos' => {
         'page_title' => 
@@ -105,14 +107,14 @@ get qr/^\/([^\/]+)\/?([^\/]+)?\/?$/ => sub {
 
 
 get '/:disease_proj/resized/:resize_image_w/:image_file_name' => sub {
-    my $is_legend = param('image_file_name') =~ /legend\..+?$/i ? 1 : 0;
+    my $is_legend = param('image_file_name') =~ /$legend_file_name_regexp/ ? 1 : 0;
     resize param('disease_proj') . '/images/' . param('image_file_name') => {
         w => param('resize_image_w') || ( $is_legend ? $default_legend_image_w : $default_image_w ),
     };
 };
 
 get '/:disease_proj/:subproj/resized/:resize_image_w/:image_file_name' => sub {
-    my $is_legend = param('image_file_name') =~ /legend\..+?$/i ? 1 : 0;
+    my $is_legend = param('image_file_name') =~ /$legend_file_name_regexp/ ? 1 : 0;
     resize param('disease_proj') . '/images/' . ( !$is_legend ? param('subproj') . '/' : '' ) . param('image_file_name') => {
         w => param('resize_image_w') || ( $is_legend ? $default_legend_image_w : $default_image_w ),
     };
@@ -123,7 +125,7 @@ get '/:disease_proj/image/:image_file_name' => sub {
 };
 
 get '/:disease_proj/:subproj/image/:image_file_name' => sub {
-    my $is_legend = param('image_file_name') =~ /legend\..+?$/i ? 1 : 0;
+    my $is_legend = param('image_file_name') =~ /$legend_file_name_regexp/ ? 1 : 0;
     send_file param('disease_proj') . '/images/' . ( !$is_legend ? param('subproj') . '/' : '' ) . param('image_file_name');
 };
 
