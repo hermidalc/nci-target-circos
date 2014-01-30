@@ -40,6 +40,27 @@ get '/' => sub {
     template 'index';
 };
 
+get qr/^\/([^\/]+)\/([^\/]+)?\/?overlay\/?$/ => sub {
+    my ($disease_proj, $subproj) = splat;
+    my $image_file_0_basename = fileparse(param('img0'), qr/\.[^.]*/);
+    my (undef, $target_case_id_0, $disease_state_cmp_type_0) = split '_', $image_file_0_basename, 3;
+    my $image_file_1_basename = fileparse(param('img1'), qr/\.[^.]*/);
+    my (undef, $target_case_id_1, $disease_state_cmp_type_1) = split '_', $image_file_1_basename, 3;
+    template 'circos_overlay' => {
+        'disease_proj' => $disease_proj,
+        'subproj' => $subproj,
+        'image_w' => param('tsize') || $default_overlay_image_w,
+        'case_id_0' => $target_case_id_0,
+        'case_id_1' => $target_case_id_1,
+        'image_file_0' => param('img0'),
+        'image_file_1' => param('img1'),
+        'label_file_0' => $disease_state_cmp_type_0,
+        'label_file_1' => $disease_state_cmp_type_1,
+    }, {
+        layout => 'overlay',
+    };
+};
+
 get qr/^\/([^\/]+)\/?([^\/]+)?\/?$/ => sub {
     my ($disease_proj, $subproj) = splat;
     my (@image_files, @circos_types, @target_case_ids, 
@@ -127,27 +148,6 @@ get '/:disease_proj/image/:image_file_name' => sub {
 get '/:disease_proj/:subproj/image/:image_file_name' => sub {
     my $is_legend = param('image_file_name') =~ /$legend_file_name_regexp/ ? 1 : 0;
     send_file param('disease_proj') . '/images/' . ( !$is_legend ? param('subproj') . '/' : '' ) . param('image_file_name');
-};
-
-get qr/^\/([^\/]+)\/([^\/]+)?\/?overlay\/?$/ => sub {
-    my ($disease_proj, $subproj) = splat;
-    my $image_file_0_basename = fileparse(param('img0'), qr/\.[^.]*/);
-    my (undef, $target_case_id_0, $disease_state_cmp_type_0) = split '_', $image_file_0_basename, 3;
-    my $image_file_1_basename = fileparse(param('img1'), qr/\.[^.]*/);
-    my (undef, $target_case_id_1, $disease_state_cmp_type_1) = split '_', $image_file_1_basename, 3;
-    template 'circos_overlay' => {
-        'disease_proj' => $disease_proj,
-        'subproj' => $subproj,
-        'image_w' => param('tsize') || $default_overlay_image_w,
-        'case_id_0' => $target_case_id_0,
-        'case_id_1' => $target_case_id_1,
-        'image_file_0' => param('img0'),
-        'image_file_1' => param('img1'),
-        'label_file_0' => $disease_state_cmp_type_0,
-        'label_file_1' => $disease_state_cmp_type_1,
-    }, {
-        layout => 'overlay',
-    };
 };
 
 true;
