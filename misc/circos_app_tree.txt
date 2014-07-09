@@ -1,4 +1,4 @@
-NCI-TARGET-Circos/
+NCI-TARGET-Circos
 ├── bin
 │   ├── circos_app.pl
 │   └── circos_server.pl
@@ -13,7 +13,6 @@ NCI-TARGET-Circos/
 │       └── TARGET
 │           └── Circos.pm
 ├── logs
-│   └── deployment.log
 ├── Makefile.PL
 ├── MANIFEST
 ├── MANIFEST.SKIP
@@ -24,13 +23,77 @@ NCI-TARGET-Circos/
 │   ├── 404.html
 │   ├── 500.html
 │   ├── ALL
-│   │   └── images -> /local/target_data/download/ALL/CGI/Circos
+│   │   └── images -> /local/target/download/ALL/CGI/Circos
 │   ├── AML
-│   │   └── images -> /local/target_data/download/AML/CGI/Circos
+│   │   └── images -> /local/target/download/AML/CGI/Circos
 │   ├── css
 │   │   ├── error.css
-│   │   ├── lightbox.css
-│   │   └── style.css
+│   │   ├── fontface
+│   │   │   ├── FranklinGothic-Book-cleartype.png
+│   │   │   ├── FranklinGothic-Book-demo.html
+│   │   │   ├── FranklinGothic-BookIt-cleartype.png
+│   │   │   ├── FranklinGothic-BookIt-demo.html
+│   │   │   ├── FranklinGothic-BookIt-webfont.eot
+│   │   │   ├── FranklinGothic-BookIt-webfont.svg
+│   │   │   ├── FranklinGothic-BookIt-webfont.ttf
+│   │   │   ├── FranklinGothic-BookIt-webfont.woff
+│   │   │   ├── FranklinGothic-Book-webfont.eot
+│   │   │   ├── FranklinGothic-Book-webfont.svg
+│   │   │   ├── FranklinGothic-Book-webfont.ttf
+│   │   │   ├── FranklinGothic-Book-webfont.woff
+│   │   │   ├── FranklinGothic-Cd-cleartype.png
+│   │   │   ├── FranklinGothic-Cd-demo.html
+│   │   │   ├── FranklinGothic-CdIt-cleartype.png
+│   │   │   ├── FranklinGothic-CdIt-demo.html
+│   │   │   ├── FranklinGothic-CdIt-webfont.eot
+│   │   │   ├── FranklinGothic-CdIt-webfont.svg
+│   │   │   ├── FranklinGothic-CdIt-webfont.ttf
+│   │   │   ├── FranklinGothic-CdIt-webfont.woff
+│   │   │   ├── FranklinGothic-Cd-webfont.eot
+│   │   │   ├── FranklinGothic-Cd-webfont.svg
+│   │   │   ├── FranklinGothic-Cd-webfont.ttf
+│   │   │   ├── FranklinGothic-Cd-webfont.woff
+│   │   │   ├── FranklinGothic-DemiCd-cleartype.png
+│   │   │   ├── FranklinGothic-DemiCd-demo.html
+│   │   │   ├── FranklinGothic-DemiCd-webfont.eot
+│   │   │   ├── FranklinGothic-DemiCd-webfont.svg
+│   │   │   ├── FranklinGothic-DemiCd-webfont.ttf
+│   │   │   ├── FranklinGothic-DemiCd-webfont.woff
+│   │   │   ├── FranklinGothic-Demi-cleartype.png
+│   │   │   ├── FranklinGothic-Demi-demo.html
+│   │   │   ├── FranklinGothic-Demi-webfont.eot
+│   │   │   ├── FranklinGothic-Demi-webfont.svg
+│   │   │   ├── FranklinGothic-Demi-webfont.ttf
+│   │   │   ├── FranklinGothic-Demi-webfont.woff
+│   │   │   ├── FranklinGothic-MedCd-cleartype.png
+│   │   │   ├── FranklinGothic-MedCd-demo.html
+│   │   │   ├── FranklinGothic-MedCdIt-cleartype.png
+│   │   │   ├── FranklinGothic-MedCdIt-demo.html
+│   │   │   ├── FranklinGothic-MedCdIt-webfont.eot
+│   │   │   ├── FranklinGothic-MedCdIt-webfont.svg
+│   │   │   ├── FranklinGothic-MedCdIt-webfont.ttf
+│   │   │   ├── FranklinGothic-MedCdIt-webfont.woff
+│   │   │   ├── FranklinGothic-MedCd-webfont.eot
+│   │   │   ├── FranklinGothic-MedCd-webfont.svg
+│   │   │   ├── FranklinGothic-MedCd-webfont.ttf
+│   │   │   ├── FranklinGothic-MedCd-webfont.woff
+│   │   │   ├── FranklinGothic-Med-cleartype.png
+│   │   │   ├── FranklinGothic-Med-demo.html
+│   │   │   ├── FranklinGothic-MedIt-cleartype.png
+│   │   │   ├── FranklinGothic-MedIt-demo.html
+│   │   │   ├── FranklinGothic-MedIt-webfont.eot
+│   │   │   ├── FranklinGothic-MedIt-webfont.svg
+│   │   │   ├── FranklinGothic-MedIt-webfont.ttf
+│   │   │   ├── FranklinGothic-MedIt-webfont.woff
+│   │   │   ├── FranklinGothic-Med-webfont.eot
+│   │   │   ├── FranklinGothic-Med-webfont.svg
+│   │   │   ├── FranklinGothic-Med-webfont.ttf
+│   │   │   └── FranklinGothic-Med-webfont.woff
+│   │   ├── jquery-ui-1.10.2.smoothness.css
+│   │   ├── lightbox-2.5.1.css
+│   │   ├── lightbox-2.5.1.css.orig
+│   │   ├── style.css
+│   │   └── style.overlay.css
 │   ├── dispatch.cgi
 │   ├── dispatch.fcgi
 │   ├── favicon.ico
@@ -43,20 +106,47 @@ NCI-TARGET-Circos/
 │   │   └── prev.png
 │   ├── javascripts
 │   │   ├── jquery-1.7.2.min.js
+│   │   ├── jquery-1.9.1.js
 │   │   ├── jquery.smooth-scroll.min.js
+│   │   ├── jquery-ui-1.10.2.js
 │   │   ├── jquery-ui-1.8.18.custom.min.js
-│   │   ├── lightbox.js
-│   │   └── lightbox.js.orig
+│   │   ├── lightbox-2.5.1.js
+│   │   └── lightbox-2.5.1.js.orig
 │   ├── NBL
-│   │   └── images -> /local/target_data/download/NBL/CGI/Circos
+│   │   └── images -> /local/target/download/NBL/CGI/Circos
 │   ├── OS
-│   │   └── images -> /local/target_data/download/OS/CGI/Circos
+│   │   └── images -> /local/target/download/OS/CGI/Circos
 │   ├── PPTP
-│   │   └── images -> /local/target_data/download/PPTP/CGI/Circos
+│   │   └── images -> /local/target/download/PPTP/CGI/Circos
 │   ├── TEST
 │   │   └── images
+│   │       ├── PPTP
+│   │       │   ├── somaticCircos_TARGET-30-NAABZJ-1_EBVNormalVsPrimary.png
+│   │       │   ├── somaticCircos_TARGET-30-NAABZJ-2_PrimaryVsCellLine1.png
+│   │       │   ├── somaticCircos_TARGET-30-NAABZJ_EBVNormalVsCellLine1.png
+│   │       │   ├── somaticCircos_TARGET-30-NAABZJ_EBVNormalVsCellLine2.png
+│   │       │   ├── somaticCircos_TARGET-30-NAABZK-1_EBVNormalVsCellLine3.png
+│   │       │   ├── somaticCircos_TARGET-30-NAABZK-2_CellLine1VsCellLine3.png
+│   │       │   ├── somaticCircos_TARGET-30-NAABZK_EBVNormalVsCellLine1.png
+│   │       │   ├── somaticCircos_TARGET-30-NAABZK_EBVNormalVsCellLine2.png
+│   │       │   ├── somaticCircos_TARGET-30-NAABZL-1_EBVNormalVsNormalFibroblast.png
+│   │       │   ├── somaticCircos_TARGET-30-NAABZL-2_CellLine1VsCellLine2.png
+│   │       │   ├── somaticCircos_TARGET-30-NAABZL_EBVNormalVsCellLine1.png
+│   │       │   ├── somaticCircos_TARGET-30-NAABZL_EBVNormalVsCellLine2.png
+│   │       │   ├── somaticCircos_TARGET-30-NAABZM_EBVNormalVsCellLine1.png
+│   │       │   ├── somaticCircos_TARGET-30-NAABZM_EBVNormalVsCellLine2.png
+│   │       │   ├── somaticCircos_TARGET-30-NAABZN_EBVNormalVsCellLine.png
+│   │       │   ├── somaticCircos_TARGET-30-NAABZN_EBVNormalVsXenograft.png
+│   │       │   ├── somaticCircos_TARGET-30-PAMYEF-1_EBVNormalVsXenograft.png
+│   │       │   ├── somaticCircos_TARGET-30-PAMYEF-2_CellLine1VsXenograft.png
+│   │       │   ├── somaticCircos_TARGET-30-PAMYEF_EBVNormalVsCellLine1.png
+│   │       │   ├── somaticCircos_TARGET-30-PAMYEF_EBVNormalVsCellLine2.png
+│   │       │   ├── somaticCircos_TARGET-30-PASXWX-1_EBVNormalVsXenograft.png
+│   │       │   ├── somaticCircos_TARGET-30-PASXWX-2_CellLine1VsXenograft.png
+│   │       │   ├── somaticCircos_TARGET-30-PASXWX_EBVNormalVsCellLine1.png
+│   │       │   └── somaticCircos_TARGET-30-PASXWX_EBVNormalVsCellLine2.png
 │   │       ├── somaticCircosLegend.png
-│   │       ├── somaticCircos_TARGET-10-PAIXPH_NormalVsRelapse.png
+│   │       ├── somaticCircos_TARGET-10-PAIXPH_NormalVsRemission.png
 │   │       ├── somaticCircos_TARGET-10-PANDWE_NormalVsPrimary.png
 │   │       ├── somaticCircos_TARGET-10-PANDWE_NormalVsRecurrent.png
 │   │       ├── somaticCircos_TARGET-10-PASSXJ_NormalVsRecurrent.png
@@ -64,18 +154,19 @@ NCI-TARGET-Circos/
 │   │       ├── somaticCircos_TARGET-10-PASUBW_NormalVsRecurrent.png
 │   │       ├── somaticCircos_TARGET-10-PATTEE_NormalVsPrimary.png
 │   │       ├── somaticCircos_TARGET-10-PATTEE_NormalVsRecurrent.png
-│   │       └── somaticCircos_TARGET-10-PATTEE_NormalVsRelapse.png
+│   │       └── somaticCircos_TARGET-10-PATTEE_NormalVsRemission.png
 │   └── WT
-│       └── images -> /local/target_data/download/WT/CGI/Circos
+│       └── images -> /local/target/download/WT/CGI/Circos
 ├── t
 │   ├── 001_base.t
 │   └── 002_index_route.t
 └── views
+    ├── circos_overlay.tt
     ├── circos.tt
     ├── index.tt
     ├── index.tt.orig
     └── layouts
         ├── main.tt
-        └── main.tt.orig
+        ├── main.tt.orig
+        └── overlay.tt
 
-27 directories, 49 files
