@@ -116,8 +116,6 @@ NCI-TARGET-Circos
 │   │   └── images -> /local/target/download/NBL/CGI/Circos
 │   ├── OS
 │   │   └── images -> /local/target/download/OS/CGI/Circos
-│   ├── PPTP
-│   │   └── images -> /local/target/download/PPTP/CGI/Circos
 │   ├── TEST
 │   │   └── images
 │   │       ├── PPTP
