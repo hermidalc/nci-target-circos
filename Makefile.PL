@@ -3,7 +3,7 @@ use warnings;
 use ExtUtils::MakeMaker;
 
 WriteMakefile(
-    NAME                => 'NCI::TARGET::Circos',
+    NAME                => 'NCI::OCG::TARGET::Circos',
     AUTHOR              => q/Leandro Hermida <leandro.hermida@nih.gov>/,
     VERSION_FROM        => 'lib/NCI/TARGET/Circos.pm',
     ABSTRACT            => 'NCI TARGET Circos Plot Viewer',

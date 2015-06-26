@@ -1,4 +1,4 @@
-package NCI::TARGET::Circos;
+package NCI::OCG::TARGET::Circos;
 
 use Dancer qw(:syntax);
 use Dancer::Plugin::Thumbnail;
