@@ -1,8 +1,8 @@
 <table class="center">
-    <th colspan="6" style="padding-bottom:20px">NCI TARGET CGI Circos Plot Viewer</th>
+    <th colspan="8" style="padding-bottom:20px">NCI TARGET CGI Circos Plot Viewer</th>
     <tr>
     [% FOREACH disease_proj IN settings.disease_projs -%]
-        <td><a style="font-weight: bold; font-size: 24px;" href="/[% disease_proj %]">[% disease_proj %]</a></td>
+        <td class="main"><a href="/[% disease_proj %]">[% disease_proj %]</a></td>
     [% END -%]
     </tr>
 </table>
