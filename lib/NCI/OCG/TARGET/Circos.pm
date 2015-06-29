@@ -93,10 +93,9 @@ get qr/^\/([^\/]+)\/?([^\/]+)?\/?$/ => sub {
     }
     my @unique_cmp_types = sort keys %num_cmp_type_images;
     my ($legend_w, $legend_h) = imgsize($legend_file_name) if defined $legend_file_name;
-    my $app_title_prefix = join(' ', (split '::', __PACKAGE__)[0..1]);
     template 'circos' => {
         'page_title' => 
-            "$app_title_prefix $disease_proj" . 
+            "TARGET $disease_proj" . 
             ( $subproj ? " $subproj" : '' ) . 
             ' CGI Circos Plots',
         'disease_proj' => $disease_proj,
