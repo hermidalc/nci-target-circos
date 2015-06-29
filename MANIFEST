@@ -9,6 +9,7 @@ Makefile.PL
 MANIFEST
 MANIFEST.SKIP
 misc/circos_app_tree.txt
+misc/starman
 misc/circos_app_dependencies.txt
 public/favicon.ico
 public/TEST/images/somaticCircos_TARGET-10-PAIXPH_NormalVsRemission.png
