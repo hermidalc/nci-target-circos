@@ -52,13 +52,13 @@ sub start {
     my $start_cmd_str = 
         "$PERLBIN/plackup --daemonize --env $app_env --server Starman --listen $host:$port --workers $num_workers --pid $pid_file --app $app_file --error-log $error_log_file";
     print "$start_cmd_str\n" if $debug;;
-    print 'Starting Circos Application Server...';
+    print 'Starting Starman (Circos) Application Server...';
     if (system(split(' ', $start_cmd_str)) == 0) {
         print +(' ' x 20), '[ ', colored('OK', 'green'), " ]\n";
     }
     else {
         print +(' ' x 20), '[ ', colored('FAILED', 'red'), " ]\n";
-        die "Could not start Circos application server, exit code: ", $? >> 8, "\n";
+        die "Could not start Starman (Circos) application server, exit code: ", $? >> 8, "\n";
     }
 }
 
@@ -66,7 +66,7 @@ sub stop {
     #my $get_pid_cmd_str = "ps -eo pid,cmd | grep 'starman master' | grep -v grep | sed 's/^ *//' | cut -d' ' -f1";
     my $get_pid_cmd_str = "cat $pid_file";
     print "$get_pid_cmd_str\n" if $debug;
-    print 'Stopping Circos Application Server...';
+    print 'Stopping Starman (Circos) Application Server...';
     chomp(my $pid = `$get_pid_cmd_str`);
     if (defined $pid and $pid) {
         my $stop_cmd_str = "kill -QUIT $pid";
@@ -77,22 +77,22 @@ sub stop {
         }
         else {
             print +(' ' x 20), '[ ', colored('FAILED', 'red'), " ]\n";
-            die "Could not stop Circos application server, exit code: ", $? >> 8, "\n";
+            die "Could not stop Starman (Circos) application server, exit code: ", $? >> 8, "\n";
         }
     }
     else {
         print +(' ' x 20), '[ ', colored('FAILED', 'red'), " ]\n";
-        die "Could not locate Circos application server process, most likely server is not running\n";
+        die "Could not locate Starman (Circos) application server process, most likely server is not running\n";
     }
 }
 
 sub status {
-    my $status_cmd_str = "pgrep -F $pid_file > /dev/null 2>&1";
+    my $status_cmd_str = 'pgrep ' . (-f $pid_file ? "-F $pid_file" : "'starman master'") . ' > /dev/null 2>&1';
     if (system(split(' ', $status_cmd_str)) == 0) {
-        print "Circos application server is running\n";
+        print "Starman (Circos) application server is running\n";
     }
     else {
-        print "Circos application server is stopped\n";
+        print "Starman (Circos) application server is stopped\n";
     }
 }
 
