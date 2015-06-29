@@ -88,7 +88,8 @@ sub stop {
 
 sub status {
     my $status_cmd_str = 'pgrep ' . (-f $pid_file ? "-F $pid_file" : "'starman master'") . ' > /dev/null 2>&1';
-    if (system(split(' ', $status_cmd_str)) == 0) {
+    print "$status_cmd_str\n" if $debug;
+    if (system($status_cmd_str) == 0) {
         print "Starman (Circos) application server is running\n";
     }
     else {
