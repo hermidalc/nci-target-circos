@@ -1,4 +1,4 @@
-NCI-TARGET-Circos
+target-circos
 ├── bin
 │   ├── circos_app.pl
 │   └── circos_server.pl
@@ -10,8 +10,9 @@ NCI-TARGET-Circos
 ├── INSTALL
 ├── lib
 │   └── NCI
-│       └── TARGET
-│           └── Circos.pm
+│       └── OCG
+│           └── TARGET
+│               └── Circos.pm
 ├── logs
 ├── Makefile.PL
 ├── MANIFEST
@@ -23,9 +24,13 @@ NCI-TARGET-Circos
 │   ├── 404.html
 │   ├── 500.html
 │   ├── ALL
-│   │   └── images -> /local/target/download/ALL/CGI/Circos
+│   │   └── images -> /local/target/download/ALL/Phase_II/Discovery/WGS/CGI/Circos
+│   ├── ALL-MDLS
+│   │   └── images -> /local/target/download/ALL/Phase_II/Model_Systems/WGS/CGI/Circos
 │   ├── AML
-│   │   └── images -> /local/target/download/AML/CGI/Circos
+│   │   └── images -> /local/target/download/AML/Discovery/WGS/CGI/Circos
+│   ├── CCSK
+│   │   └── images -> /local/target/download/CCSK/Discovery/WGS/CGI/Circos
 │   ├── css
 │   │   ├── error.css
 │   │   ├── fontface
@@ -113,9 +118,11 @@ NCI-TARGET-Circos
 │   │   ├── lightbox-2.5.1.js
 │   │   └── lightbox-2.5.1.js.orig
 │   ├── NBL
-│   │   └── images -> /local/target/download/NBL/CGI/Circos
+│   │   └── images -> /local/target/download/NBL/Discovery/WGS/CGI/Circos
+│   ├── NBL-MDLS
+│   │   └── images -> /local/target/download/NBL/Model_Systems/WGS/CGI/Circos
 │   ├── OS
-│   │   └── images -> /local/target/download/OS/CGI/Circos
+│   │   └── images -> /local/target/download/OS/Discovery/WGS/CGI/Circos
 │   ├── TEST
 │   │   └── images
 │   │       ├── PPTP
@@ -154,7 +161,7 @@ NCI-TARGET-Circos
 │   │       ├── somaticCircos_TARGET-10-PATTEE_NormalVsRecurrent.png
 │   │       └── somaticCircos_TARGET-10-PATTEE_NormalVsRemission.png
 │   └── WT
-│       └── images -> /local/target/download/WT/CGI/Circos
+│       └── images -> /local/target/download/WT/Discovery/WGS/CGI/Circos
 ├── t
 │   ├── 001_base.t
 │   └── 002_index_route.t
@@ -168,3 +175,4 @@ NCI-TARGET-Circos
         ├── main.tt.orig
         └── overlay.tt
 
+36 directories, 139 files

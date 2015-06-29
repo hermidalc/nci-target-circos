@@ -1,0 +1,26 @@
+#!/bin/bash
+#
+# start/stop starman (circos) application server
+
+PERL_HOME=/usr/local/perl-5.16.3-centos6.4
+export PERL_HOME
+
+case "$1" in
+
+'start')
+    su - target -c "cd /usr/local/target/circos; $PERL_HOME/bin/perl bin/circos_server.pl -p 8180 -w 10 start"
+    ;;
+'stop')
+    su - target -c "cd /usr/local/target/circos; $PERL_HOME/bin/perl bin/circos_server.pl -p 8180 stop"
+    ;;
+'status')
+    su - target -c "cd /usr/local/target/circos; $PERL_HOME/bin/perl bin/circos_server.pl status"
+    ;;
+'restart')
+    su - target -c "cd /usr/local/target/circos; $PERL_HOME/bin/perl bin/circos_server.pl -p 8180 -w 10 restart"
+    ;;
+*)
+    echo "Usage: $0 { start | stop | status | restart }"
+    ;;
+esac
+exit 0
