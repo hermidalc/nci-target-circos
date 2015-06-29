@@ -8,16 +8,16 @@ export PERL_HOME
 case "$1" in
 
 'start')
-    su - target -c "cd /usr/local/target/circos; $PERL_HOME/bin/perl bin/circos_server.pl -p 8180 -w 10 start"
+    su - starman -c "cd /usr/local/target/circos; $PERL_HOME/bin/perl bin/circos_server.pl -p 8180 -w 10 start"
     ;;
 'stop')
-    su - target -c "cd /usr/local/target/circos; $PERL_HOME/bin/perl bin/circos_server.pl -p 8180 stop"
+    su - starman -c "cd /usr/local/target/circos; $PERL_HOME/bin/perl bin/circos_server.pl -p 8180 stop"
     ;;
 'status')
-    su - target -c "cd /usr/local/target/circos; $PERL_HOME/bin/perl bin/circos_server.pl status"
+    su - starman -c "cd /usr/local/target/circos; $PERL_HOME/bin/perl bin/circos_server.pl status"
     ;;
 'restart')
-    su - target -c "cd /usr/local/target/circos; $PERL_HOME/bin/perl bin/circos_server.pl -p 8180 -w 10 restart"
+    su - starman -c "cd /usr/local/target/circos; $PERL_HOME/bin/perl bin/circos_server.pl -p 8180 -w 10 restart"
     ;;
 *)
     echo "Usage: $0 { start | stop | status | restart }"
