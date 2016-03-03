@@ -30,4 +30,4 @@ plugins:
         cache: cache
         compression: 0
 
-disease_projs: [ 'ALL', 'ALL-MDLS', 'AML', 'CCSK', 'NBL', 'NBL-MDLS', 'OS', 'WT' ]
+disease_projs: [ 'ALL', 'AML', 'CCSK', 'NBL', 'OS', 'WT' ]
