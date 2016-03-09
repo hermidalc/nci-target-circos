@@ -1,6 +1,10 @@
 #!/bin/bash
 #
-# start/stop starman (circos) application server
+# start/stop Starman (Circos) Application Server
+
+# chkconfig: 2345 99 00
+# description: Starman (Circos) Application Server
+# processname: starman
 
 PERL_HOME=/usr/local/perl-5.16.3-centos6.4
 export PERL_HOME
